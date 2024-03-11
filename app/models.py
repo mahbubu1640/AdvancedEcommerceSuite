@@ -63,11 +63,10 @@ class Product(models.Model):
     title = models.CharField(max_length=64)
     selling_price = models.PositiveIntegerField()
     discounted_price = models.PositiveIntegerField()
-    description = models.CharField(max_length=264)
+    description = models.TextField()
     brand = models.CharField(max_length=64)
     category = models.CharField(choices =PRODUCT_CHOICES ,max_length=11)
-    product_images =models.ImageField(upload_to='procudtimg')
-    
+    product_images=models.ImageField(upload_to='procudtimg') 
     def __str__(self):
         return str(self.id)
 #User / product /quantity 
