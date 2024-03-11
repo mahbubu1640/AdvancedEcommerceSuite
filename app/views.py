@@ -66,8 +66,15 @@ def mobile(request):
  return render(request, 'app/mobile.html')
 
 class MobileListView(View):
-    def get(self,request):
-        mobile = Product.objects.filter(category='Mobile')
+    def get(self,request,data=None):
+        if data is None:
+            mobile = Product.objects.filter(category='Mobile')
+        elif data =="Redmi" or data =="Samsung":
+            mobile = Product.objects.filter(category="Mobile",brand=data)
+        elif data == "below":
+            mobile = Product.objects.filter(category="Mobile",discounted_price__lt=10000)
+        elif data =="above":
+            mobile = Product.objects.filter(category="Mobile",discounted_price__gt=10000)
         return render(request,'app/mobile.html',{'mobile':mobile})
 
 class LaptopListView(View):

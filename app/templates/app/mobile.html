@@ -8,7 +8,17 @@
    Side Bar for Mobile filter
   </div>
   <div class="col-sm-8 offset-sm-1">
-   Mobile Product List <br> <br>
+   Mobile Product List <br> <div class="list-group">
+    <a href="{%url 'mobile' %}" class="list-group-item list-group-item-action" aria-current = "true">All Mobile</a>
+     
+    <!-- views url mobile=name / 
+      mobiledata= name calling views with slug=data -->
+
+    <a href="{%url 'mobiledata' 'Redmi'%}" class="list-group-item list-group-item-action" aria-current = "true">Redmi Mobile</a>
+    <a href="{%url 'mobiledata' 'Samsung' %}" class="list-group-item list-group-item-action" aria-current = "true">Samsung Mobile</a>
+    <a href="{%url 'mobiledata' 'below' %}" class="list-group-item list-group-item-action" aria-current = "true">Mobile Under 10K</a>
+    <a href="{%url 'mobiledata' 'above' %}" class="list-group-item list-group-item-action" aria-current = "true">Mobile Above 10k</a>
+     </div> 
     {% for m in mobile %}
      <ul>
         <h1>{{m.title}} </h1> 
