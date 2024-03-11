@@ -19,17 +19,26 @@
     <a href="{%url 'mobiledata' 'below' %}" class="list-group-item list-group-item-action" aria-current = "true">Mobile Under 10K</a>
     <a href="{%url 'mobiledata' 'above' %}" class="list-group-item list-group-item-action" aria-current = "true">Mobile Above 10k</a>
      </div> 
-    {% for m in mobile %}
-     <ul>
-        <h1>{{m.title}} </h1> 
-        <img src="{{m.product_images.url}}" alt="">
-        <p>{{m.description}}</p>
-        <li>Price : {{m.selling_price}}</li>
-        <li>Buy at : {{m.discounted_price}}</li>
-        <li>Brand : {{m.brand}}</li>
-     </ul>
-     <br> <br>
+     <div class="col-sm-8">
+      <div class="row">
+          {%for product in mobile%}
+          <div class="col-sm-4 text-center mb-4">
+              <a href="{% url 'product-detail' product.id %}" class="btn">
+                  <div class="item">
+                      <img src="{{product.product_images.url}}" alt="" height="300" class="">
+                      <div class="fw-bold">{{product.title}}</div>
+                      <div class="fw-bold">{{product.discounted_price}}
+                          <small class="fw-light text-decoration-line-through">
+                              {{product.selling_price}}</small>
+                      </div>
+                  </div>
+              </a>
+          </div>
+    </div>
     {%endfor%}
+  </div>
+   </div>
+  
    </ul>
   </div>
  </div>
