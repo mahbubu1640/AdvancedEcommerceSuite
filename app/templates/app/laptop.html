@@ -7,8 +7,19 @@
   <div class="col-sm-3">
    Side Bar for Laptop filter
   </div>
-  <div class="col-sm-8 offset-sm-1">
-   Laptop Product List <br> <br>
+
+   <div class="col-sm-8 offset-sm-1">
+      Laptop Product List <br> <div class="list-group"> <br>
+       <a href="{%url 'laptop' %}" class="list-group-item list-group-item-action" aria-current = "true">All Laptop</a>
+        
+       <!-- views url mobile=name / 
+         mobiledata= name calling views with slug=data -->
+   
+       <a href="{%url 'laptopdata' 'Hp'%}" class="list-group-item list-group-item-action" aria-current = "true">Hp Laptop</a>
+       <a href="{%url 'laptopdata' 'MSI' %}" class="list-group-item list-group-item-action" aria-current = "true">MSI Laptop</a>
+       <a href="{%url 'laptopdata' 'above' %}" class="list-group-item list-group-item-action" aria-current = "true">Laptop Above 25K</a>
+       <a href="{%url 'laptopdata' 'below' %}" class="list-group-item list-group-item-action" aria-current = "true">Laptop Below 25k</a>
+        </div> 
     {% for l in laptop %}
      <ul>
         <h1>{{l.title}} </h1> 

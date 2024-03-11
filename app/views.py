@@ -81,7 +81,21 @@ class LaptopListView(View):
     def get(self,request):
         laptop = Product.objects.filter(category='Laptop')
         return render(request,'app/laptop.html',{'laptop':laptop})
-
+    
+class LaptopProductView(View):
+    def get(self,request,data=None):
+        if data is None:
+            laptop = Product.objects.filter(category="Laptop")
+        elif data =="Hp" or data == "MSI":
+            laptop = Product.objects.filter(category="Laptop",brand=data)
+        elif data =="above":
+            laptop = Product.objects.filter(category="Laptop",discounted_price__gt=20000)
+        elif data == "below":
+            laptop = Product.objects.filter(category="Laptop",discounted_price__lt=20000)
+        
+        return render(request,'app/laptop.html',{'laptop':laptop})
+        
+    
 
 def login(request):
  return render(request, 'app/login.html')

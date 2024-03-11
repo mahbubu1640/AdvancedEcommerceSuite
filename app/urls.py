@@ -17,6 +17,7 @@ urlpatterns = [
     path('mobile/', views.MobileListView.as_view(), name='mobile'),
     path('mobile/<slug:data>', views.MobileListView.as_view(), name='mobiledata'),
     path('laptop/', views.LaptopListView.as_view(), name='laptop'),
+    path('laptop/<slug:data>', views.LaptopProductView.as_view(), name='laptopdata'),
     path('login/', views.login, name='login'),
     path('registration/', views.customerregistration, name='customerregistration'),
     path('checkout/', views.checkout, name='checkout'),
