@@ -70,6 +70,11 @@ class MobileListView(View):
         mobile = Product.objects.filter(category='Mobile')
         return render(request,'app/mobile.html',{'mobile':mobile})
 
+class LaptopListView(View):
+    def get(self,request):
+        laptop = Product.objects.filter(category='Laptop')
+        return render(request,'app/laptop.html',{'laptop':laptop})
+
 
 def login(request):
  return render(request, 'app/login.html')

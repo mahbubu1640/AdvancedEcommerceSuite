@@ -1,0 +1,27 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Buy Now{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+ <div class="row">
+  <div class="col-sm-3">
+   Side Bar for Laptop filter
+  </div>
+  <div class="col-sm-8 offset-sm-1">
+   Laptop Product List <br> <br>
+    {% for l in laptop %}
+     <ul>
+        <h1>{{l.title}} </h1> 
+        <img src="{{l.product_images.url}}" alt="">
+        <p>{{l.description}}</p>
+        <li>Price : {{l.selling_price}}</li>
+        <li>Buy at : {{l.discounted_price}}</li>
+        <li>Brand : {{l.brand}}</li>
+     </ul>
+     <br> <br>
+    {%endfor%}
+   </ul>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}
