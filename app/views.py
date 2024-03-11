@@ -65,6 +65,12 @@ def change_password(request):
 def mobile(request):
  return render(request, 'app/mobile.html')
 
+class MobileListView(View):
+    def get(self,request):
+        mobile = Product.objects.filter(category='Mobile')
+        return render(request,'app/mobile.html',{'mobile':mobile})
+
+
 def login(request):
  return render(request, 'app/login.html')
 
