@@ -98,4 +98,13 @@ class OrderPlaced(models.Model):
     quantity = models.PositiveIntegerField()
     ordered_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices =OrderPlaced_CHOICES , max_length=10)
+
+
+class UserRegistration(models.Model):
+    name = models.CharField(max_length=64)
+    email = models.EmailField()
+    password1 = models.CharField(max_length=24)
+    password1_confirmation = models.CharField(max_length=24)
     
+    def __str__(self):
+        return self.name

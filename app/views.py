@@ -1,18 +1,20 @@
 from django.shortcuts import render
 from django.views import View
 from django.views.generic.edit import CreateView
+
 from .models import Product
 from django.urls import reverse_lazy
-# Change this view into create class based view 
-# -- to pass Top wear , Bottom wear , Mobile , Laptop  into template contex/render
-# -- filter it by category and display it to the homepage by category type 
-# -- create url for View 
-# home(request)
-# - this view is only displaying html static images / not from the database or filter // 
+from django.contrib import messages
+
+from .forms import CustomerProfileForm
+from .models import Customer
+from .forms import CustomRegistrationForm
 
 
-# def home(request):
-#  return render(request, 'app/home.html')
+
+def password_reset(request):
+    pass
+
 
 class ProductView(View):
     def get(self,request):
@@ -29,13 +31,6 @@ class ProductCreateView(CreateView):
     template_name = 'add_product.html'
     success_url = reverse_lazy('home')
 
-
-# def product_detail(request):
-#  return render(request, 'app/productdetail.html')
-
-# def product_detail(request,pk):
-#     product=Product.objects.get(pk=pk)
-#     return render(request,'app/productdetail.html',{'product':product})
 
 
 
@@ -54,13 +49,15 @@ def profile(request):
  return render(request, 'app/profile.html')
 
 def address(request):
- return render(request, 'app/address.html')
+    # add= Customer.objects.filter(user=request.user)
+    address=Customer.objects.all()
+    return render(request, 'app/address.html',{'address':address}) #{'add':add})
 
 def orders(request):
  return render(request, 'app/orders.html')
 
-def change_password(request):
- return render(request, 'app/changepassword.html')
+# def change_password(request):
+#  return render(request, 'app/changepassword.html')
 
 def mobile(request):
  return render(request, 'app/mobile.html')
@@ -100,8 +97,42 @@ class LaptopProductView(View):
 def login(request):
  return render(request, 'app/login.html')
 
-def customerregistration(request):
- return render(request, 'app/customerregistration.html')
 
+
+
+class CustomerRegistrationView(View):
+    def get(self,request):
+        form = CustomRegistrationForm()
+        return render(request,"app/customerregistration.html",{'form':form})
+    def post(self,request):
+        form= CustomRegistrationForm(request.POST)
+        if form.is_valid():
+            messages.success(request,"Congratulations ! Registered Successfully")
+            form.save()
+        return render(request,"app/customerregistration.html",{'form':form})
+        
+    
 def checkout(request):
  return render(request, 'app/checkout.html')
+
+
+class ProfileView(View):
+    def get(self,request):
+        form =CustomerProfileForm()
+        return render(request,"app/profile.html",{'form':form,
+        'active':'btn-primary'})
+    
+    def post(self,request):
+        form = CustomerProfileForm(request.POST)
+        if form.is_valid():
+            usr = request.user
+            name = form.cleaned_data['name']
+            locality = form.cleaned_data['locality']
+            city = form.cleaned_data['city']
+            state = form.cleaned_data['state']
+            zipcode = form.cleaned_data['zipcode']
+            reg = Customer(user=usr,name=name,locality=locality,
+            city=city,state=state,zipcode=zipcode)
+            reg.save()
+            messages.success(request,'Congratulations!! Profile Updated Successfully')
+        return render(request,'app/profile.html',{'form':form,'active':'btn-primary'})
