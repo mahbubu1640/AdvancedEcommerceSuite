@@ -54,8 +54,10 @@ def show_cart(request):
                 amount+=tempamount
                 totalamount=amount+shiping_amount
                 
-        return render(request,'app/addtocart.html',{'carts':cart,
-        'totalamount':totalamount,'amount':amount})
+            return render(request,'app/addtocart.html',{'carts':cart,
+            'totalamount':totalamount,'amount':amount})
+        else:
+            return render(request,"app/emptycart.html")
 
 
 def add_to_cart(request):
