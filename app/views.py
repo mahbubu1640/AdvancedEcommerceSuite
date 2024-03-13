@@ -9,7 +9,8 @@ from django.contrib import messages
 from .forms import CustomerProfileForm
 from .models import Customer,Cart
 from .forms import CustomRegistrationForm
-
+from django.db.models import Q
+from django.http import JsonResponse
 
 
 def password_reset(request):
@@ -59,19 +60,33 @@ def show_cart(request):
         else:
             return render(request,"app/emptycart.html")
 
+from django.http import JsonResponse
+from django.db.models import Q
+
 def plus_cart(request):
     if request.method == 'GET':
-        prod_id = request.GET['prod_id']
-        c= Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
-        c.quantity+=1
-        c.save()
-        amount = 0.00
-        shiping_amount = 0.00
-        cart_product = [p for p in Cart.objects.all() if p.user==request.user]
-        for p in cart_product:
-            tempamount = (p.quality*p.product.discounted_price )
-            amount += tempamount
-            
+        prod_id = request.GET.get('prod_id')  # Use get() method to avoid KeyError
+        print(prod_id)
+        try:
+            c = Cart.objects.get(product=prod_id, user=request.user)
+            c.quantity += 1
+            c.save()
+            amount = 0.00
+            shiping_amount = 0.00
+            cart_product = Cart.objects.filter(user=request.user)
+            for p in cart_product:
+                tempamount = (p.quantity * p.product.discounted_price)
+                amount += tempamount
+            totalamount = amount + shiping_amount
+            data = {
+                'quantity': c.quantity,
+                'amount': amount,
+                'totalamount': totalamount
+            }
+            return JsonResponse(data)
+        except Cart.DoesNotExist:
+            return JsonResponse({'error': 'Cart item does not exist'})
+
 
 def add_to_cart(request):
     user = request.user
