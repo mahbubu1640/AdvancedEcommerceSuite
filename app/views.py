@@ -45,8 +45,9 @@ class ProductDetailView(View):
     def get(self,request,pk):
         product = Product.objects.get(pk=pk)
         item_already_in_cart = False
-        item_already_in_cart = Cart.objects.filter(Q(product=product.id)
-        & Q(user=request.user)).exists()
+        if request.user.is_authenticated:
+            item_already_in_cart = Cart.objects.filter(Q(product=product.id)
+            & Q(user=request.user)).exists()
         return render(request,'app/productdetail.html',{'product':product,
                 'item_already_in_cart':item_already_in_cart})
 
@@ -253,6 +254,7 @@ def checkout(request):
         totalamount = amount + shiping_amount
     return render(request, 'app/checkout.html',{'add':add,
     'totalamount':totalamount,'cart_items':cart_items})
+
 
 def payment_done(request):
     user = request.user
