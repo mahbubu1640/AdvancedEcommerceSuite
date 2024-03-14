@@ -53,7 +53,7 @@ def show_cart(request):
             for p in cart_product:
                 tempamount=(p.quantity * p.product.discounted_price)
                 amount+=tempamount
-                totalamount=amount+shiping_amount
+            totalamount=amount+shiping_amount
                 
             return render(request,'app/addtocart.html',{'carts':cart,
             'totalamount':totalamount,'amount':amount})
@@ -72,14 +72,60 @@ def plus_cart(request):
             c.quantity += 1
             c.save()
             amount = 0.00
-            shiping_amount = 0.00
+            shiping_amount = 70.00
+            cart_product = Cart.objects.filter(user=request.user)
+            for p in cart_product:
+                tempamount = (p.quantity * p.product.discounted_price)
+                amount += tempamount
+            #totalamount = amount + shiping_amount
+            data = {
+                'quantity': c.quantity,
+                'amount': amount,
+                'totalamount': amount+shiping_amount
+            }
+            return JsonResponse(data)
+        except Cart.DoesNotExist:
+            return JsonResponse({'error': 'Cart item does not exist'})
+
+def minus_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET.get('prod_id')  # Use get() method to avoid KeyError
+        print(prod_id)
+        try:
+            c = Cart.objects.get(product=prod_id, user=request.user)
+            c.quantity -= 1
+            c.save()
+            amount = 0.00
+            shiping_amount = 70.00
+            cart_product = Cart.objects.filter(user=request.user)
+            for p in cart_product:
+                tempamount = (p.quantity * p.product.discounted_price)
+                amount += tempamount
+            #totalamount = amount + shiping_amount
+            data = {
+                'quantity': c.quantity,
+                'amount': amount,
+                'totalamount': amount+shiping_amount
+            }
+            return JsonResponse(data)
+        except Cart.DoesNotExist:
+            return JsonResponse({'error': 'Cart item does not exist'})
+
+def remove_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET.get('prod_id')  # Use get() method to avoid KeyError
+        print(prod_id)
+        try:
+            c = Cart.objects.get(product=prod_id, user=request.user)
+            c.delete()
+            amount = 0.00
+            shiping_amount = 70.00
             cart_product = Cart.objects.filter(user=request.user)
             for p in cart_product:
                 tempamount = (p.quantity * p.product.discounted_price)
                 amount += tempamount
             totalamount = amount + shiping_amount
             data = {
-                'quantity': c.quantity,
                 'amount': amount,
                 'totalamount': totalamount
             }

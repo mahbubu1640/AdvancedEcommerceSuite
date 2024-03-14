@@ -23,6 +23,8 @@ $('#slider1, #slider2, #slider3').owlCarousel({
 })
 
 $('.plus-cart').click(function(){
+    console.log("Plus Clicked")
+    var eml = this.parentNode.children[2]
     var id = $(this).attr('pid').toString();
     // console.log(id);
     $.ajax({
@@ -32,6 +34,56 @@ $('.plus-cart').click(function(){
            prod_id:id
         },
         success : function(data){
+            eml.innerText = data.quantity
+            document.getElementById("amount").innerText=data.amount
+            document.getElementById("totalamount").innerText=data.totalamount
+            
+            console.log(data)
+            console.log("success")
+        }
+    })
+})
+$('.minus-cart').click(function(){
+    console.log("Plus Clicked")
+    var eml = this.parentNode.children[2]
+    var id = $(this).attr('pid').toString();
+    // console.log(id);
+    $.ajax({
+        type:"GET",
+        url:"/minus_cart",
+        data:{
+           prod_id:id
+        },
+        success : function(data){
+            eml.innerText = data.quantity
+            document.getElementById("amount").innerText=data.amount
+            document.getElementById("totalamount").innerText=data.totalamount
+
+            console.log(data)
+            console.log("success")
+        }
+    })
+})
+
+
+$('.remove-cart').click(function(){
+    console.log("Plus Clicked")
+    var eml = this
+    var id = $(this).attr('pid').toString();
+    // console.log(id);
+    $.ajax({
+        type:"GET",
+        url:"/remove_cart",
+        data:{
+           prod_id:id
+        },
+        success : function(data){
+            console.log("Delete")
+
+            //eml.innerText = data.quantity
+            document.getElementById("amount").innerText=data.amount
+            document.getElementById("totalamount").innerText=data.totalamount
+            eml.parentNode.parentNode.parentNode.parentNode.remove()
             console.log(data)
             console.log("success")
         }
