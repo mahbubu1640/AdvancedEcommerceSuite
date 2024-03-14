@@ -79,6 +79,10 @@ class Cart(models.Model):
     
     def __str__(self):
         return str(self.id)
+    
+    @property
+    def total_cost(self):
+        return self.quantity* self.product.discounted_price
 
 # user/customer/product /quantity /ordered_date/status/
 # Accepted/packed/On The Way /Delivered/Cancel/
@@ -98,6 +102,9 @@ class OrderPlaced(models.Model):
     quantity = models.PositiveIntegerField()
     ordered_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(choices =OrderPlaced_CHOICES , max_length=10)
+    @property
+    def total_cost(self):
+        return self.quantity* self.product.discounted_price
 
 
 class UserRegistration(models.Model):
