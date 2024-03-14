@@ -44,7 +44,11 @@ class ProductCreateView(CreateView):
 class ProductDetailView(View):
     def get(self,request,pk):
         product = Product.objects.get(pk=pk)
-        return render(request,'app/productdetail.html',{'product':product})
+        item_already_in_cart = False
+        item_already_in_cart = Cart.objects.filter(Q(product=product.id)
+        & Q(user=request.user)).exists()
+        return render(request,'app/productdetail.html',{'product':product,
+                'item_already_in_cart':item_already_in_cart})
 
 
 @login_required
@@ -228,8 +232,9 @@ class CustomerRegistrationView(View):
             messages.success(request,"Congratulations ! Registered Successfully")
             form.save()
         return render(request,"app/customerregistration.html",{'form':form})
-        
-    
+
+
+@login_required
 def checkout(request):
     print("checkout")
     user = request.user

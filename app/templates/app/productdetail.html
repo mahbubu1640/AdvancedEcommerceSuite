@@ -15,13 +15,15 @@
     <span class="text-success">₹{{ product.discounted_price }}</span> 
     <small class="text-muted"><del>₹{{ product.selling_price }}</del></small>
 </h4>
-
-
-   <form action="/add_to_cart/" class="d-inline">
+     {% if item_already_in_cart %}
+     <a href="{% url 'show-cart' %}" class="btn btn-warning shadow px-5 py-2 ms-4">Go to Cart</a>
+   
+     {%else%}
+     <form action="/add_to_cart/" class="d-inline">
     <input type="hidden" name="prod_id" value="{{product.id}}" id="prod_id">
     <button type="Submit" class="btn btn-primary shadow px-5 py-2">Add to Cart</button>   
 </form>
-   
+{%endif%}
    
    
      <a href="{% url 'buy-now' %}" class="btn btn-danger shadow px-5 py-2 ms-4">Buy Now</a>
